@@ -54,7 +54,7 @@ This package is intended to be installed from the project repository. It is not 
 
 ### 1. Clone the repository
 ```bash
-git clone <repo-url>
+git clone https://github.com/KoperSloper/factoralign.git
 cd factoralign
 ```
 
