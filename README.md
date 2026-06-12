@@ -46,6 +46,7 @@ src/factoralign/        Python package source
 notebooks/checks.ipynb  Small validation and smoke-check notebook
 notebooks/example.ipynb Worked example notebook
 pyproject.toml          Package metadata, dependencies, and tool config
+tests/test_core.py      Test suite for core package functionality
 ```
 
 ## Setup
@@ -109,7 +110,6 @@ Core runtime dependencies are defined in `pyproject.toml`:
 Development dependencies include:
 
 - pytest
-- black
 - ruff
 - matplotlib
 - jupyter
@@ -179,8 +179,25 @@ print(orthogonal_norm_share(analysis.gamma_ineq))
 See `notebooks/checks.ipynb` and `notebooks/example.ipynb` for more complete
 walkthroughs.
 
+## Validation
+
+After installing the development dependencies, run the automated checks from
+the repository root:
+
+```bash
+pytest
+ruff check src
+```
+
+These commands check different parts of the project:
+
+- `pytest` runs the test suite in `tests/` and verifies that core package
+  behavior still works.
+- `ruff check src` runs static lint checks on the source code and catches many
+  style issues, unused imports, and common Python mistakes.
+
 ## References
 
-Saxena, A., Martin, C., and Stubbs, R. A. (2013). *Constraints in quantitative strategies: An alignment perspective*. Journal of Asset Management, 14, 278–292.
+Saxena, A., Martin, C., and Stubbs, R. A. (2013). *Constraints in quantitative strategies: An alignment perspective*. Journal of Asset Management, 14, 278-292.
 
-Ceria, S., Saxena, A., and Stubbs, R. A. (2012). *Factor Alignment Problems and Quantitative Portfolio Management*. The Journal of Portfolio Management, 38(2), 29–43.
+Ceria, S., Saxena, A., and Stubbs, R. A. (2012). *Factor Alignment Problems and Quantitative Portfolio Management*. The Journal of Portfolio Management, 38(2), 29-43.

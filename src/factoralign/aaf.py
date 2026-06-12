@@ -70,7 +70,7 @@ def aaf_variance_contribution(
     y = _as_1d_array(latent_factor, "latent_factor")
 
     if h.shape != y.shape:
-        raise ValueError(f"holdings and latent_factor must have the same shape.")
+        raise ValueError("holdings and latent_factor must have the same shape.")
 
     if latent_variance < 0:
         raise ValueError("latent_variance must be non-negative.")
