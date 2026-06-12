@@ -14,10 +14,6 @@ class ProjectionResult:
     orthogonal: np.ndarray
     coefficients: np.ndarray
 
-    @property
-    def reconstruction_error(self) -> float:
-        """Return ||original - spanned - orthogonal||."""
-        return float(np.linalg.norm(self.original - self.spanned - self.orthogonal))
 
     def orthogonality_error(
         self,
@@ -101,21 +97,6 @@ def project_onto_factors(
     )
 
 
-def residualize(
-    vector: np.ndarray,
-    exposures: np.ndarray,
-    weights: np.ndarray | None = None,
-    rcond: float | None = None,
-) -> np.ndarray:
-    """Return only the orthogonal component of a vector."""
-    return project_onto_factors(
-        vector=vector,
-        exposures=exposures,
-        weights=weights,
-        rcond=rcond,
-    ).orthogonal
-
-
 def normalize_vector(vector: np.ndarray, tol: float = 1e-12) -> np.ndarray:
     """Return vector / ||vector||.
 
@@ -128,23 +109,6 @@ def normalize_vector(vector: np.ndarray, tol: float = 1e-12) -> np.ndarray:
         raise ValueError("Cannot normalize a vector with near-zero norm.")
 
     return z / norm
-
-
-def orthogonal_factor(
-    vector: np.ndarray,
-    exposures: np.ndarray,
-    weights: np.ndarray | None = None,
-    rcond: float | None = None,
-    tol: float = 1e-12,
-) -> np.ndarray:
-    """Return the normalized orthogonal component of a vector."""
-    orthogonal = residualize(
-        vector=vector,
-        exposures=exposures,
-        weights=weights,
-        rcond=rcond,
-    )
-    return normalize_vector(orthogonal, tol=tol)
 
 
 def _as_1d_array(array: np.ndarray, name: str) -> np.ndarray:

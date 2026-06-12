@@ -1,17 +1,3 @@
-"""Risk-model containers and utilities.
-
-The package uses a standard linear factor risk model:
-
-    Q = X F X.T + D
-
-where
-    X : asset-by-factor exposure matrix, shape (n_assets, n_factors)
-    F : factor covariance matrix, shape (n_factors, n_factors)
-    D : diagonal matrix of specific variances, shape (n_assets, n_assets)
-
-In code we store D as a one-dimensional vector `specific_var`.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -93,21 +79,6 @@ class RiskModel:
         """Return the full asset covariance matrix Q."""
         return self.X @ self.factor_cov @ self.X.T + np.diag(self.specific_var)
 
-    def specific_risk(self) -> np.ndarray:
-        """Return asset-level specific volatilities."""
-        return np.sqrt(self.specific_var)
-
     def inverse_specific_var_weights(self) -> np.ndarray:
         """Return WLS weights equal to inverse specific variance."""
         return 1.0 / self.specific_var
-
-    def validate_vector(self, vector: np.ndarray, name: str = "vector") -> np.ndarray:
-        """Validate and return an asset-level vector."""
-        vector = np.asarray(vector, dtype=float)
-
-        if vector.shape != (self.n_assets,):
-            raise ValueError(
-                f"{name} must have shape {(self.n_assets,)}, got {vector.shape}."
-            )
-
-        return vector
